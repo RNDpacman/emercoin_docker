@@ -61,6 +61,10 @@ LABEL org.opencontainers.image.source="https://github.com/RNDpacman/emercoin_doc
 
 LABEL name="Emercoin 0.7.12"
 
+ARG ARG_ARCH=x86_64
+# "x86_64" or "aarch64"
+ENV ARCH=$ARG_ARCH
+
 WORKDIR /emc
 
 COPY --from=builder /emercoin/src/emercoind.upx ./emercoind
@@ -69,57 +73,57 @@ COPY --from=builder /emercoin/src/emercoin-cli.upx ./emercoin-cli
 
 COPY ./emercoin.conf .
 
-WORKDIR /lib/x86_64-linux-gnu
+WORKDIR /lib/$ARCH-linux-gnu
 
-COPY --from=builder /lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libboost_filesystem.so.1.74.0 .
 
 RUN ln -s ./libboost_filesystem.so.1.74.0 ./libboost_filesystem.so
 
-COPY --from=builder /lib/x86_64-linux-gnu/libboost_program_options.so.1.74.0 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libboost_program_options.so.1.74.0 .
 
 RUN ln -s ./libboost_program_options.so.1.74.0 ./libboost_program_options.so
 
-COPY --from=builder /lib/x86_64-linux-gnu/libboost_thread.so.1.74.0 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libboost_thread.so.1.74.0 .
 
-COPY --from=builder /lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libboost_chrono.so.1.74.0 .
 
-COPY --from=builder /lib/x86_64-linux-gnu/libdb_cxx-5.3.so .
+COPY --from=builder /lib/$ARCH-linux-gnu/libdb_cxx-5.3.so .
 
-COPY --from=builder /lib/x86_64-linux-gnu/libzmq.so.5.2.4 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libzmq.so.5.2.4 .
 
 RUN ln -s ./libzmq.so.5.2.4 ./libzmq.so.5
 
-COPY --from=builder /lib/x86_64-linux-gnu/libevent_core-2.1.so.7.0.1 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libevent_core-2.1.so.7.0.1 .
 
 RUN ln -s ./libevent_core-2.1.so.7.0.1 ./libevent_core-2.1.so.7
 
-COPY --from=builder /lib/x86_64-linux-gnu/libbsd.so.0.11.5 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libbsd.so.0.11.5 .
 
 RUN ln -s ./libbsd.so.0.11.5 ./libbsd.so.0
 
-COPY --from=builder /lib/x86_64-linux-gnu/libsodium.so.23.3.0 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libsodium.so.23.3.0 .
 
 RUN ln -s ./libsodium.so.23.3.0 ./libsodium.so.23
 
-COPY --from=builder /lib/x86_64-linux-gnu/libpgm-5.3.so.0.0.128 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libpgm-5.3.so.0.0.128 .
 
 RUN ln -s ./libpgm-5.3.so.0.0.128 ./libpgm-5.3.so.0
 
-COPY --from=builder /lib/x86_64-linux-gnu/libnorm.so.1 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libnorm.so.1 .
 
 RUN ln -s ./libnorm.so.1 ./libnorm.so
 
-COPY --from=builder /lib/x86_64-linux-gnu/libmd.so.0.0.5 .
+COPY --from=builder /lib/$ARCH-linux-gnu/libmd.so.0.0.5 .
 
 RUN ln -s ./libmd.so.0.0.5 ./libmd.so.0
 
-WORKDIR /usr/lib/x86_64-linux-gnu
+WORKDIR /usr/lib/$ARCH-linux-gnu
 
-COPY --from=builder /usr/lib/x86_64-linux-gnu/libevent_pthreads-2.1.so.7.0.1 .
+COPY --from=builder /usr/lib/$ARCH-linux-gnu/libevent_pthreads-2.1.so.7.0.1 .
 
 RUN ln -s ./libevent_pthreads-2.1.so.7.0.1 ./libevent_pthreads-2.1.so.7
 
-COPY --from=builder /usr/lib/x86_64-linux-gnu/libevent-2.1.so.7.0.1 .
+COPY --from=builder /usr/lib/$ARCH-linux-gnu/libevent-2.1.so.7.0.1 .
  
 RUN ln -s ./libevent-2.1.so.7.0.1 ./libevent-2.1.so.7
 
