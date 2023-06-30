@@ -36,26 +36,36 @@ RUN ./autogen.sh && \
                 --disable-debug \
                 --with-incompatible-bdb \
                 --enable-static \
-                --disable-shared && \
-    make -j 4 && \ 
-    make install
+                --disable-shared
 
+RUN make -j 4
 
-FROM gruebel/upx as upx
+RUN make install
 
-COPY --from=builder /emercoin/src/emercoind /emercoind.fat
+RUN apt-get install upx binutils -y
 
-RUN	upx --best --lzma -o /emercoind /emercoind.fat
+RUN strip /emercoin/src/emercoind
 
+RUN strip /emercoin/src/emercoin-cli
+
+RUN	upx --best --lzma -o /emercoin/src/emercoind.upx /emercoin/src/emercoind
+
+RUN	upx --best --lzma -o /emercoin/src/emercoin-cli.upx /emercoin/src/emercoin-cli
 
 
 FROM ubuntu
 
+LABEL author="wg00" maintainer="wg0@riseup.net"
+
+LABEL org.opencontainers.image.source="https://github.com/RNDpacman/emercoin_docker"
+
+LABEL name="Emercoin 0.7.12"
+
 WORKDIR /emc
 
-COPY --from=upx /emercoind .
+COPY --from=builder /emercoin/src/emercoind.upx ./emercoind
 
-COPY --from=builder /emercoin/src/emercoin-cli .
+COPY --from=builder /emercoin/src/emercoin-cli.upx ./emercoin-cli
 
 COPY ./emercoin.conf .
 
@@ -115,7 +125,7 @@ RUN ln -s ./libevent-2.1.so.7.0.1 ./libevent-2.1.so.7
 
 WORKDIR /emc
 
-EXPOSE 5353/udp
+EXPOSE 5335/udp
 
 EXPOSE 6661/tcp
 
