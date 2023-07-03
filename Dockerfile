@@ -1,6 +1,6 @@
 FROM ubuntu AS builder
 
-ARG ARG_EMC_VER=v0.7.12emc
+ARG EMC_VER=v0.7.12emc
 
 #ENV ENV_EMC_VER=$EMC_VER
 # 0.8.0-dev
@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN git clone https://github.com/emercoin/emercoin.git && \
     cd /emercoin/ && \
-    git checkout $ENV_EMC_VER
+    git checkout $EMC_VER
 
 WORKDIR /emercoin
 
@@ -49,18 +49,17 @@ RUN	upx --best --lzma -o ./emercoind.upx ./emercoind && \
 
 FROM ubuntu
 
-ARG ARG_ARCH=x86_64
+ARG ARCH=x86_64
 
-ENV ARCH=$ARG_ARCH
+ARG EMC_VER=v0.7.12emc
+
+#ENV ARCH=$ARCH
 
 LABEL author="wg00" maintainer="wg0@riseup.net"
 
 LABEL org.opencontainers.image.source="https://github.com/RNDpacman/emercoin_docker"
 
-LABEL name="Emercoin"
-
-
-
+LABEL name="Emercoin "$EMC_VER
 
 WORKDIR /emc
 
