@@ -1,9 +1,8 @@
-
 FROM ubuntu AS builder
 
-ARG EMC_VER=v0.7.12emc
+ARG ARG_EMC_VER=v0.7.12emc
 
-ENV EMC_VER=$EMC_VER
+#ENV ENV_EMC_VER=$EMC_VER
 # 0.8.0-dev
 
 
@@ -25,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN git clone https://github.com/emercoin/emercoin.git && \
     cd /emercoin/ && \
-    git checkout $EMC_VER
+    git checkout $ENV_EMC_VER
 
 WORKDIR /emercoin
 
@@ -58,7 +57,8 @@ LABEL author="wg00" maintainer="wg0@riseup.net"
 
 LABEL org.opencontainers.image.source="https://github.com/RNDpacman/emercoin_docker"
 
-LABEL name="Emercoin $EMC_VER"
+LABEL name="Emercoin"
+
 
 
 
