@@ -1,7 +1,10 @@
+
 FROM ubuntu AS builder
 
-# 0.8.0-dev
 ARG EMC_VER=v0.7.12emc
+
+ENV EMC_VER=$EMC_VER
+# 0.8.0-dev
 
 
 WORKDIR /
@@ -55,7 +58,7 @@ LABEL author="wg00" maintainer="wg0@riseup.net"
 
 LABEL org.opencontainers.image.source="https://github.com/RNDpacman/emercoin_docker"
 
-LABEL name="Emercoin 0.7.12"
+LABEL name="Emercoin $EMC_VER"
 
 
 
