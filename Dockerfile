@@ -44,8 +44,10 @@ RUN strip /emercoin/src/emercoind && strip /emercoin/src/emercoin-cli
 
 WORKDIR /emercoin/src
 
-RUN	upx --best --lzma -o ./emercoind.upx ./emercoind && \
-	upx --best --lzma -o ./emercoin-cli.upx ./emercoin-cli
+RUN bash -c 'if [ ! "$HOSTTYPE" = "s390x" ]; \
+             then upx --best --lzma ./emercoind && \
+	              upx --best --lzma ./emercoin-cli; fi
+
 
 FROM ubuntu
 
@@ -63,9 +65,9 @@ LABEL name="Emercoin "$EMC_VER
 
 WORKDIR /emc
 
-COPY --from=builder /emercoin/src/emercoind.upx ./emercoind
+COPY --from=builder /emercoin/src/emercoind ./emercoind
 
-COPY --from=builder /emercoin/src/emercoin-cli.upx ./emercoin-cli
+COPY --from=builder /emercoin/src/emercoin-cli ./emercoin-cli
 
 COPY ./emercoin.conf .
 
