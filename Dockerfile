@@ -46,7 +46,7 @@ WORKDIR /emercoin/src
 
 RUN bash -c 'if [ ! "$HOSTTYPE" = "s390x" ]; \
              then upx --best --lzma ./emercoind && \
-	              upx --best --lzma ./emercoin-cli; fi
+	              upx --best --lzma ./emercoin-cli; fi'
 
 
 FROM ubuntu
