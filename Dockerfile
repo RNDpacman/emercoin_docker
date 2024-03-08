@@ -1,6 +1,6 @@
 FROM ubuntu AS builder
 
-ARG EMC_VER=v0.8.3emc
+ARG EMC_VER=v0.8.4emc
 
 WORKDIR /
 
